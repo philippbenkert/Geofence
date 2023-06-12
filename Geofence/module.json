@@ -2,7 +2,8 @@
     "id": "{fadb96c9-4a41-4848-9537-90fe74d95395}",
     "name": "Geofence",
     "author": "Ihr Name",
-
+    "vendor": "Geofence",
+    "type": 3,
     "prefix": "GF",
     "parentRequirements": [],
     "childRequirements": [],
