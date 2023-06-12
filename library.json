@@ -1,0 +1,15 @@
+{
+    "id": "Geofence",
+    "version": "0.1",
+    "name": "Geofence",
+    "author": "Ihr Name",
+    "url": "",
+    "compatibility": {
+        "version": "6.0"
+    },
+    "modules": {
+        "/": {
+            "Geofence": "Geofence"
+        }
+    }
+}
