@@ -11,6 +11,9 @@ class Geofence extends IPSModule {
         $this->RegisterPropertyInteger('Altitude', 0);
         $this->RegisterPropertyInteger('Speed', 0);
 
+        // Registrieren Sie die Eigenschaft für den API-Schlüssel
+        $this->RegisterPropertyString('GoogleMapsAPIKey', '');
+
         // Erstellen Sie die HTMLBox, die die Karte enthalten wird
         $this->RegisterVariableString('MapHTMLBox', 'Map', '~HTMLBox');
     }
@@ -24,6 +27,9 @@ class Geofence extends IPSModule {
         $longitude = GetValue($this->ReadPropertyInteger('Longitude'));
         $altitude = GetValue($this->ReadPropertyInteger('Altitude'));
         $speed = GetValue($this->ReadPropertyInteger('Speed'));
+        
+        // Holen Sie sich den Google Maps API-Schlüssel
+        $googleMapsAPIKey = $this->ReadPropertyString('GoogleMapsAPIKey');
 
         $geotrackingData = [
             'latitude' => $latitude,
@@ -77,7 +83,7 @@ class Geofence extends IPSModule {
 
         $htmlCode .= '}
                     </script>
-                    <script async defer src="https://maps.googleapis.com/maps/api/js?key=AIzaSyB1OFO5P8A35C73d55-JBuABnS9_dWA-oI&callback=initMap">
+                    <script async defer src="https://maps.googleapis.com/maps/api/js?key=' . $googleMapsAPIKey . '&callback=initMap">
                     </script>
                     </body>
                     </html>';
@@ -85,4 +91,3 @@ class Geofence extends IPSModule {
         SetValue($this->GetIDForIdent('MapHTMLBox'), $htmlCode);
     }
 }
-
