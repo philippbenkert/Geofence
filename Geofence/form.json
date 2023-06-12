@@ -19,6 +19,11 @@
             "type": "NumberSpinner",
             "name": "Speed",
             "caption": "Speed Variable ID"
+        },
+        {
+            "type": "ValidationTextBox",
+            "name": "GoogleMapsAPIKey",
+            "caption": "Google Maps API Key"
         }
     ]
 }
