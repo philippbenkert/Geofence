@@ -1,5 +1,5 @@
 {
-  "id": "296B252670694197A30BCDCD3EF6C7E1",
+  "id": "{fadb96c9-4a41-4848-9537-90fe74d95395}",
   "name": "Geofence",
   "author": "Philipp Benkert",
   "url": "https://github.com/philippbenkert/Geofence",
@@ -8,7 +8,7 @@
   "date": "2023-06-14",
   "modules": [
     {
-      "id": "41FDB10440894904B881262586DB7E06",
+      "id": "{2ed53a1c-c50f-417e-87e2-d6d86b8f8651}",
       "name": "Geofence",
       "type": 1,
       "vendor": "Philipp Benkert",
