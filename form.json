@@ -1,0 +1,24 @@
+{
+    "elements": [
+        {
+            "type": "NumberSpinner",
+            "name": "Latitude",
+            "caption": "Latitude Variable ID"
+        },
+        {
+            "type": "NumberSpinner",
+            "name": "Longitude",
+            "caption": "Longitude Variable ID"
+        },
+        {
+            "type": "NumberSpinner",
+            "name": "Altitude",
+            "caption": "Altitude Variable ID"
+        },
+        {
+            "type": "NumberSpinner",
+            "name": "Speed",
+            "caption": "Speed Variable ID"
+        }
+    ]
+}
