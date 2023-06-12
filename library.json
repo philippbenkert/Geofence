@@ -1,12 +1,18 @@
 {
-    "id": "{5f9398d6-5ddc-40c5-a0c9-338d4e237081}",
-    "version": "0.1",
-    "name": "Geofence",
-    "author": "Ihr Name",
-    "url": "",
-    "compatibility": {
-        "version": "6.0"
-    },
-    "build": 0,
-    "date": 0
+  "id": "296B252670694197A30BCDCD3EF6C7E1",
+  "name": "Geofence",
+  "author": "Philipp Benkert",
+  "url": "https://github.com/philippbenkert/Geofence",
+  "version": "1.0",
+  "build": 1,
+  "date": "2023-06-14",
+  "modules": [
+    {
+      "id": "41FDB10440894904B881262586DB7E06",
+      "name": "Geofence",
+      "type": 1,
+      "vendor": "Philipp Benkert",
+      "aliases": []
+    }
+  ]
 }
