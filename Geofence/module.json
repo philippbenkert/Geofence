@@ -1,10 +1,16 @@
 {
-    "id": "{fadb96c9-4a41-4848-9537-90fe74d95395}",
+    "id": "{2ed53a1c-c50f-417e-87e2-d6d86b8f8651}",
     "name": "Geofence",
-    "vendor": "Geofence",
-    "type": 3,
-    "prefix": "GF",
-    "parentRequirements": [],
-    "childRequirements": [],
-    "implemented": []
+    "type": "Module",
+    "vendor": "Philipp Benkert",
+    "url": "https://github.com/philippbenkert/Geofence",
+    "version": "1.0",
+    "build": "1",
+    "date": "2023-06-14",
+    "requirements": {
+        "php": ">=7.3.0",
+        "ips": ">=5.5"
+    },
+    "prefix": "GEOFENCE",
+    "aliases": []
 }
