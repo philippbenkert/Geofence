@@ -5,6 +5,9 @@ class Geofence extends IPSModule {
     public function Create() {
         parent::Create();
 
+        // Überprüfen Sie die Installationsbedingungen
+        $this->checkInstallationConditions();
+
         $this->RegisterPropertyInteger('Latitude', 0);
         $this->RegisterPropertyInteger('Longitude', 0);
         $this->RegisterPropertyInteger('Altitude', 0);
@@ -15,6 +18,33 @@ class Geofence extends IPSModule {
         $this->RegisterVariableString('MapHTMLBox', 'Map', '~HTMLBox');
     }
 
+    private function checkInstallationConditions() {
+        // Überprüfen Sie die PHP-Version
+        if (version_compare(PHP_VERSION, '7.2.0', '<')) {
+            $this->LogMessage("PHP version 7.2.0 or higher is required", KL_ERROR);
+            return;
+        }
+
+        // Überprüfen Sie die Verfügbarkeit der cURL-Erweiterung (wird für API-Anfragen benötigt)
+        if (!extension_loaded('curl')) {
+            $this->LogMessage("The cURL PHP extension is required", KL_ERROR);
+            return;
+        }
+
+        // Überprüfen Sie die Schreibrechte für das Verzeichnis, in das die Geotracking-Daten geschrieben werden
+        if (!is_writable('/var/bin/symcon/modules/Geofence')) {
+            $this->LogMessage("The directory /var/bin/symcon/modules/Geofence is not writable", KL_ERROR);
+            return;
+        }
+
+        // Überprüfen Sie die Internetverbindung
+        $connected = @fsockopen("www.google.com", 80); 
+        if (!$connected){
+            $this->LogMessage("Internet connection is required", KL_ERROR);
+            return;
+        }
+        fclose($connected);
+    }
     public function ApplyChanges() {
         parent::ApplyChanges();
 
