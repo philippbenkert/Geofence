@@ -2,10 +2,7 @@
     "id": "{fa53a853-67da-4508-bfce-4dc89102e488}",
     "name": "Geofence",
     "type": 3,
-    "aliases":
-    [
-        "Geofence"
-    ],
+    "aliases": [],
     "parentRequirements": [],
     "childRequirements": [],
     "implemented": [],
