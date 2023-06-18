@@ -2,11 +2,10 @@
     "id": "{fa53a853-67da-4508-bfce-4dc89102e488}",
     "name": "Geofence",
     "type": "Device",
-    "aliases": [],
     "parentRequirements": [],
     "childRequirements": [],
     "implemented": [],
     "prefix": "GPB",
+    "vendor": "Philipp Benkert",
     "url": "https://github.com/philippbenkert/Geofence"
-
 }
