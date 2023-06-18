@@ -1,9 +1,13 @@
 {
     "id": "{2ed53a1c-c50f-417e-87e2-d6d86b8f8651}",
-    "author": "Philipp Benkert",
     "name": "Geofence",
+    "author": "Philipp Benkert",
     "url": "https://github.com/philippbenkert/Geofence",
+    "compatibility": {
+        "version": "5.5"
+    },
     "version": "1.0",
-    "build": "1",
-    "date": "2023-06-14"
+    "build": 0,
+    "date": 0
+    
 }
