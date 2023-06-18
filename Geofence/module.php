@@ -80,8 +80,8 @@ class Geofence extends IPSModule {
 
     private function readFromFile() {
         $jsonString = file_get_contents('/var/bin/symcon/modules/Geofence/geotracking.json');
-       ```php
-        $data = json_decode($jsonString, true);
+        $data = json_decode($jsonString```php
+, true);
 
         if ($data === null) {
             $this->LogMessage("Failed to read from file", KL_ERROR);
