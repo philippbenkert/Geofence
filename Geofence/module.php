@@ -40,7 +40,7 @@ class Geofence extends IPSModule {
 
         file_put_contents('/var/bin/symcon/modules/Geofence/geotracking.json', json_encode($geotrackingData), FILE_APPEND);
 
-        $jsonString = file_get_contents('var/bin/symcon/modules/Geofence/geotracking.json');
+        $jsonString = file_get_contents('/var/bin/symcon/modules/Geofence/geotracking.json');
         $data = json_decode($jsonString, true);
 
         $htmlCode = '<!DOCTYPE html>
