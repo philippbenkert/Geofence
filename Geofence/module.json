@@ -1,11 +1,11 @@
 {
     "id": "{fa53a853-67da-4508-bfce-4dc89102e488}",
     "name": "Geofence",
-    "type": "Device",
+    "type": 3,
+    "vendor": "Philipp Benkert",
     "parentRequirements": [],
     "childRequirements": [],
     "implemented": [],
     "prefix": "GEO",
-    "vendor": "Philipp Benkert",
     "url": "https://github.com/philippbenkert/Geofence"
 }
