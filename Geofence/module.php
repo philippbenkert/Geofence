@@ -20,16 +20,41 @@ class Geofence extends IPSModule {
 
     public function ApplyChanges() {
         parent::ApplyChanges();
-    }
 
+        // Überprüfen Sie, ob die Variablen-IDs gültig sind
+        if (!IPS_VariableExists($this->ReadPropertyInteger('Latitude'))) {
+            $this->LogMessage("Latitude variable does not exist", KL_ERROR);
+        }
+        if (!IPS_VariableExists($this->ReadPropertyInteger('Longitude'))) {
+            $this->LogMessage("Longitude variable does not exist", KL_ERROR);
+        }
+        if (!IPS_VariableExists($this->ReadPropertyInteger('Altitude'))) {
+            $this->LogMessage("Altitude variable does not exist", KL_ERROR);
+        }
+        if (!IPS_VariableExists($this->ReadPropertyInteger('Speed'))) {
+            $this->LogMessage("Speed variable does not exist", KL_ERROR);
+        }
+    }
     public function UpdateGeotracking() {
         $latitude = GetValue($this->ReadPropertyInteger('Latitude'));
         $longitude = GetValue($this->ReadPropertyInteger('Longitude'));
         $altitude = GetValue($this->ReadPropertyInteger('Altitude'));
         $speed = GetValue($this->ReadPropertyInteger('Speed'));
         
+        // Überprüfen Sie, ob die Werte gültig sind
+        if (!is_numeric($latitude) || !is_numeric($longitude) || !is_numeric($altitude) || !is_numeric($speed)) {
+            $this->LogMessage("Invalid values for latitude, longitude, altitude, or speed", KL_ERROR);
+            return;
+        }
+
         // Holen Sie sich den Google Maps API-Schlüssel
         $googleMapsAPIKey = $this->ReadPropertyString('GoogleMapsAPIKey');
+
+        // Überprüfen Sie, ob der API-Schlüssel gültig ist
+        if (empty($googleMapsAPIKey)) {
+            $this->LogMessage("Invalid Google Maps API key", KL_ERROR);
+            return;
+        }
 
         $geotrackingData = [
             'latitude' => $latitude,
@@ -38,10 +63,20 @@ class Geofence extends IPSModule {
             'speed' => $speed
         ];
 
-        file_put_contents('/var/bin/symcon/modules/Geofence/geotracking.json', json_encode($geotrackingData), FILE_APPEND);
+        // Überprüfen Sie, ob die Datei erfolgreich geschrieben wurde
+        if (file_put_contents('/var/bin/symcon/modules/Geofence/geotracking.json', json_encode($geotrackingData), FILE_APPEND) === false) {
+            $this->LogMessage("Failed to write to file", KL_ERROR);
+            return;
+        }
 
         $jsonString = file_get_contents('/var/bin/symcon/modules/Geofence/geotracking.json');
         $data = json_decode($jsonString, true);
+
+        // Überprüfen Sie, ob die Datei erfolgreich gelesen wurde
+        if ($data === null) {
+            $this->LogMessage("Failed to read from file", KL_ERROR);
+            return;
+        }
 
         $htmlCode = '<!DOCTYPE html>
                     <html>
@@ -73,7 +108,7 @@ class Geofence extends IPSModule {
 
         flightPath.setMap(map);';
 
-        foreach($data as $item) {
+                foreach($data as $item) {
             $htmlCode .= 'var marker = new google.maps.Marker({
                               position: {lat: ' . $item['latitude'] . ', lng: ' . $item['longitude'] . '},
                               map: map,
@@ -88,6 +123,10 @@ class Geofence extends IPSModule {
                     </body>
                     </html>';
 
-        SetValue($this->GetIDForIdent('MapHTMLBox'), $htmlCode);
+        // Überprüfen Sie, ob die HTMLBox erfolgreich aktualisiert wurde
+        if (SetValue($this->GetIDForIdent('MapHTMLBox'), $htmlCode) === false) {
+            $this->LogMessage("Failed to update MapHTMLBox", KL_ERROR);
+        }
     }
 }
+
