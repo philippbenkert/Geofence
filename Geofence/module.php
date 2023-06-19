@@ -128,50 +128,6 @@ public function ApplyChanges() {
     $this->LogMessage("Successfully updated MapHTMLBox", KL_NOTIFY);
 }
 
-
-    $this->LogMessage("Latitude: $latitude, Longitude: $longitude, Altitude: $altitude, Speed: $speed", KL_NOTIFY);
-
-
-        if (!$this->validateValues($latitude, $longitude, $altitude, $speed)) {
-            $this->LogMessage("Invalid values for latitude, longitude, altitude, or speed", KL_ERROR);
-            return;
-        }
-
-        $googleMapsAPIKey = $this->ReadPropertyString('GoogleMapsAPIKey');
-        if (!$this->validateAPIKey($googleMapsAPIKey)) {
-            $this->LogMessage("Invalid Google Maps API key", KL_ERROR);
-            return;
-        }
-
-        $geotrackingData = [
-            'latitude' => $latitude,
-            'longitude' => $longitude,
-            'altitude' => $altitude,
-            'speed' => $speed
-        ];
-
-        // Save the geotracking data to the buffer
-        $this->SetBuffer('GeotrackingData', json_encode($geotrackingData));
-
-        if (!$this->writeToFile($geotrackingData)) {
-            $this->LogMessage("Failed to write to file", KL_ERROR);
-            return;
-        }
-
-        $data = $this->readFromFile();
-        if ($data === null) {
-            $this->LogMessage("Failed to read from file", KL_ERROR);
-            return;
-        }
-
-        $htmlCode = $this->generateHTML($data, $googleMapsAPIKey, $latitude, $longitude);
-
-        if (!$this->updateHTMLBox($htmlCode)) {
-            $this->LogMessage("Failed to update MapHTMLBox", KL_ERROR);
-            return;
-        }
-    }
-
     private function validateVariableId($variableId) {
         return IPS_VariableExists($variableId);
     }
