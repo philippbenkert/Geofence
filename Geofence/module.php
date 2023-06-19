@@ -1,28 +1,29 @@
 <?php
 class GeoTracker extends IPSModule {
 
- public function __construct($InstanceID) {
+    public function __construct($InstanceID) {
         parent::__construct($InstanceID);
 
         // Aktivieren Sie die Fehlerberichterstattung
         error_reporting(E_ALL);
     }
-    
+
     public function Create() {
-    parent::Create();
+        parent::Create();
 
-    // Überprüfen Sie die Installationsbedingungen
-    $this->checkInstallationConditions();
+        // Überprüfen Sie die Installationsbedingungen
+        $this->checkInstallationConditions();
 
-    $this->RegisterPropertyInteger('Latitude', 0);
-    $this->RegisterPropertyInteger('Longitude', 0);
-    $this->RegisterPropertyInteger('Altitude', 0);
-    $this->RegisterPropertyInteger('Speed', 0);
+        $this->RegisterPropertyInteger('Latitude', 0);
+        $this->RegisterPropertyInteger('Longitude', 0);
+        $this->RegisterPropertyInteger('Altitude', 0);
+        $this->RegisterPropertyInteger('Speed', 0);
 
-    $this->RegisterPropertyString('GoogleMapsAPIKey', '');
+        $this->RegisterPropertyString('GoogleMapsAPIKey', '');
 
-    $this->RegisterVariableString('MapHTMLBox', 'Map', '~HTMLBox');
-}
+        $this->RegisterVariableString('MapHTMLBox', 'Map', '~HTMLBox');
+        $this->SendDebug('Create', 'Module created and properties registered', 0);
+    }
 
 private function validateVariableId($id) {
     if ($id == 0) {
@@ -146,30 +147,31 @@ private function readFromFile() {
 
     
 public function ApplyChanges() {
-    parent::ApplyChanges();
+        parent::ApplyChanges();
 
-    // Register for updates of the source variables
-    $latitudeId = $this->ReadPropertyInteger('Latitude');
-    $longitudeId = $this->ReadPropertyInteger('Longitude');
-    $altitudeId = $this->ReadPropertyInteger('Altitude');
-    $speedId = $this->ReadPropertyInteger('Speed');
+        // Register for updates of the source variables
+        $latitudeId = $this->ReadPropertyInteger('Latitude');
+        $longitudeId = $this->ReadPropertyInteger('Longitude');
+        $altitudeId = $this->ReadPropertyInteger('Altitude');
+        $speedId = $this->ReadPropertyInteger('Speed');
 
-    if ($latitudeId > 0) {
-        $this->RegisterMessage($latitudeId, VM_UPDATE);
-    }
-    if ($longitudeId > 0) {
-        $this->RegisterMessage($longitudeId, VM_UPDATE);
-    }
-    if ($altitudeId > 0) {
-        $this->RegisterMessage($altitudeId, VM_UPDATE);
-    }
-    if ($speedId > 0) {
-        $this->RegisterMessage($speedId, VM_UPDATE);
-    }
+        if ($latitudeId > 0) {
+            $this->RegisterMessage($latitudeId, VM_UPDATE);
+        }
+        if ($longitudeId > 0) {
+            $this->RegisterMessage($longitudeId, VM_UPDATE);
+        }
+        if ($altitudeId > 0) {
+            $this->RegisterMessage($altitudeId, VM_UPDATE);
+        }
+        if ($speedId > 0) {
+            $this->RegisterMessage($speedId, VM_UPDATE);
+        }
 
-    // Update the map when the module is updated
-    $this->UpdateGeotracking();
-}
+        // Update the map when the module is updated
+        $this->UpdateGeotracking();
+        $this->SendDebug('ApplyChanges', 'Changes applied and geotracking updated', 0);
+    }
 
 
 
@@ -187,6 +189,8 @@ public function ApplyChanges() {
     }
     
     public function UpdateGeotracking() {
+        $this->SendDebug('UpdateGeotracking', 'Starting geotracking update', 0);
+     
     // Find the archive instance
     $archiveInstances = IPS_GetInstanceListByModuleID("{43192F0B-135B-4CE7-A0A7-1475603F3060}");
     if (count($archiveInstances) == 0) {
