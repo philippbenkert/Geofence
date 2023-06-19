@@ -61,25 +61,26 @@ public function ApplyChanges() {
     
     public function UpdateGeotracking() {
     $this->LogMessage("UpdateGeotracking started", KL_NOTIFY);
+
     $latitudeId = $this->ReadPropertyInteger('Latitude');
     $longitudeId = $this->ReadPropertyInteger('Longitude');
     $altitudeId = $this->ReadPropertyInteger('Altitude');
     $speedId = $this->ReadPropertyInteger('Speed');
 
-    $latitude = 0;
-    $longitude = 0;
-    $altitude = 0;
-    $speed = 0;
-
-    if ($latitudeId > 0 && $longitudeId > 0 && $altitudeId > 0 && $speedId > 0) {
-        $latitude = GetValue($latitudeId);
-        $longitude = GetValue($longitudeId);
-        $altitude = GetValue($altitudeId);
-        $speed = GetValue($speedId);
-    } else {
+    if ($latitudeId == 0 || $longitudeId == 0 || $altitudeId == 0 || $speedId == 0) {
         $this->LogMessage("Variables not selected yet", KL_WARNING);
         return;
     }
+
+    if (!$this->validateVariableId($latitudeId) || !$this->validateVariableId($longitudeId) || !$this->validateVariableId($altitudeId) || !$this->validateVariableId($speedId)) {
+        $this->LogMessage("One or more selected variables do not exist", KL_ERROR);
+        return;
+    }
+
+    $latitude = GetValue($latitudeId);
+    $longitude = GetValue($longitudeId);
+    $altitude = GetValue($altitudeId);
+    $speed = GetValue($speedId);
 
     $this->LogMessage("Latitude: $latitude, Longitude: $longitude, Altitude: $altitude, Speed: $speed", KL_NOTIFY);
 
@@ -129,28 +130,6 @@ public function ApplyChanges() {
     $this->LogMessage("Successfully updated MapHTMLBox", KL_NOTIFY);
 }
 
-    private function validateVariableId($variableId) {
-        return IPS_VariableExists($variableId);
-    }
-
-    private function validateValues($latitude, $longitude, $altitude, $speed) {
-        return is_numeric($latitude) && is_numeric($longitude) && is_numeric($altitude) && is_numeric($speed);
-    }
-
-    private function validateAPIKey($googleMapsAPIKey) {
-        return !empty($googleMapsAPIKey);
-    }
-
-    private function writeToFile($geotrackingData) {
-        return file_put_contents('/tmp/geotracking.json', json_encode($geotrackingData), FILE_APPEND) !== false;
-    }
-
-    private function readFromFile() {
-        $jsonString = file_get_contents('/tmp/geotracking.json');
-        $data = json_decode($jsonString, true);
-
-        return $data;
-    }
 
     private function generateHTML($data, $googleMapsAPIKey, $latitude, $longitude) {
         $htmlCode = '<!DOCTYPE html>
