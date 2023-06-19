@@ -2,7 +2,7 @@
 
 class GeoTracker extends IPSModule {
 
-       public function Create() {
+    public function Create() {
         parent::Create();
 
         // Überprüfen Sie die Installationsbedingungen
@@ -41,10 +41,10 @@ class GeoTracker extends IPSModule {
     }
 
     public function UpdateGeotracking() {
-        $latitude = GetValue($this->ReadPropertyInteger('Latitude'));
-        $longitude = GetValue($this->ReadPropertyInteger('Longitude'));
-        $altitude = GetValue($this->ReadPropertyInteger('Altitude'));
-        $speed = GetValue($this->ReadPropertyInteger('Speed'));
+        $latitude = GetValueString($this->ReadPropertyString('Latitude'));
+        $longitude = GetValueString($this->ReadPropertyString('Longitude'));
+        $altitude = GetValueString($this->ReadPropertyString('Altitude'));
+        $speed = GetValueString($this->ReadPropertyString('Speed'));
 
         if (!$this->validateValues($latitude, $longitude, $altitude, $speed)) {
             $this->LogMessage("Invalid values for latitude, longitude, altitude, or speed", KL_ERROR);
