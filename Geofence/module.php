@@ -224,12 +224,15 @@ public function ApplyChanges() {
     // Check if 120 seconds have passed since the last address update
     $lastUpdate = $this->ReadAttributeInteger('LastAddressUpdate');
     if (time() - $lastUpdate >= 120) {
+        // Check if latitude and longitude are not null before getting the address
+        if ($latitude !== null && $longitude !== null) {
         // Get the address for the current GPS coordinates
         $address = $this->getOpenStreetMapAddress($latitude, $longitude);
         SetValue($this->GetIDForIdent('Address'), $address);  // Store the address in the new variable
 
         // Update the last update time
         $this->WriteAttributeInteger('LastAddressUpdate', time());
+        }
     }
 
         
