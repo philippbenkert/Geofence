@@ -1,6 +1,6 @@
 <?php
-error_reporting(E_ALL);
 class GeoTracker extends IPSModule {
+error_reporting(E_ALL);
 
     public function Create() {
     parent::Create();
