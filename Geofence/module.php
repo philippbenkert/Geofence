@@ -8,10 +8,10 @@ class GeoTracker extends IPSModule {
         // Überprüfen Sie die Installationsbedingungen
         $this->checkInstallationConditions();
 
-        $this->RegisterPropertyInteger('Latitude', 0);
-        $this->RegisterPropertyInteger('Longitude', 0);
-        $this->RegisterPropertyInteger('Altitude', 0);
-        $this->RegisterPropertyInteger('Speed', 0);
+        $this->RegisterPropertyInteger('Latitude', $this->RegisterVariableInteger('Latitude', 'Latitude', '', 0));
+        $this->RegisterPropertyInteger('Longitude', $this->RegisterVariableInteger('Longitude', 'Longitude', '', 0));
+        $this->RegisterPropertyInteger('Altitude', $this->RegisterVariableInteger('Altitude', 'Altitude', '', 0));
+        $this->RegisterPropertyInteger('Speed', $this->RegisterVariableInteger('Speed', 'Speed', '', 0));
 
         $this->RegisterPropertyString('GoogleMapsAPIKey', '');
 
@@ -23,6 +23,8 @@ class GeoTracker extends IPSModule {
         $this->RegisterMessage($this->GetIDForIdent('Altitude'), VM_UPDATE);
         $this->RegisterMessage($this->GetIDForIdent('Speed'), VM_UPDATE);
     }
+
+
 
     public function ApplyChanges() {
         parent::ApplyChanges();
