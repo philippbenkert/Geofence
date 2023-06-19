@@ -1,7 +1,13 @@
 <?php
 class GeoTracker extends IPSModule {
-error_reporting(E_ALL);
 
+ public function __construct($InstanceID) {
+        parent::__construct($InstanceID);
+
+        // Aktivieren Sie die Fehlerberichterstattung
+        error_reporting(E_ALL);
+    }
+    
     public function Create() {
     parent::Create();
 
