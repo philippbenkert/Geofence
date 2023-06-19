@@ -18,6 +18,16 @@ class GeoTracker extends IPSModule {
     $this->RegisterVariableString('MapHTMLBox', 'Map', '~HTMLBox');
 }
 
+private function validateVariableId($id) {
+    if ($id == 0) {
+        return false;
+    }
+    if (!IPS_VariableExists($id)) {
+        return false;
+    }
+    return true;
+}    
+    
 public function ApplyChanges() {
     parent::ApplyChanges();
 
