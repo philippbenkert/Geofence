@@ -3,27 +3,51 @@
         {
             "type": "NumberSpinner",
             "name": "Latitude",
-            "caption": "Latitude Variable ID"
+            "caption": "Latitude"
         },
         {
             "type": "NumberSpinner",
             "name": "Longitude",
-            "caption": "Longitude Variable ID"
+            "caption": "Longitude"
         },
         {
             "type": "NumberSpinner",
             "name": "Altitude",
-            "caption": "Altitude Variable ID"
+            "caption": "Altitude"
         },
         {
             "type": "NumberSpinner",
             "name": "Speed",
-            "caption": "Speed Variable ID"
+            "caption": "Speed"
         },
         {
             "type": "ValidationTextBox",
             "name": "GoogleMapsAPIKey",
             "caption": "Google Maps API Key"
+        }
+    ],
+    "actions": [
+        {
+            "type": "Button",
+            "label": "Update Geotracking",
+            "onClick": "Geofence_UpdateGeotracking($id);"
+        }
+    ],
+    "status": [
+        {
+            "code": 102,
+            "icon": "active",
+            "caption": "Geofence active"
+        },
+        {
+            "code": 104,
+            "icon": "inactive",
+            "caption": "Geofence inactive"
+        },
+        {
+            "code": 201,
+            "icon": "error",
+            "caption": "configuration error"
         }
     ]
 }
