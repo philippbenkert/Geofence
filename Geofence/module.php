@@ -76,6 +76,18 @@ private function writeToFile($data) {
     return true;
 }
 
+private function readFromFile() {
+    $filePath = __DIR__ . '/geotracking.json';
+    if (!file_exists($filePath)) {
+        return null;
+    }
+    $jsonData = file_get_contents($filePath);
+    if ($jsonData === false) {
+        return null;
+    }
+    return json_decode($jsonData, true);
+}
+
     
 public function ApplyChanges() {
     parent::ApplyChanges();
