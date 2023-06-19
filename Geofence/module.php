@@ -70,6 +70,7 @@ public function ApplyChanges() {
         $longitude = GetValue($longitudeId);
         $altitude = GetValue($altitudeId);
         $speed = GetValue($speedId);
+    }
 
     $this->LogMessage("Latitude: $latitude, Longitude: $longitude, Altitude: $altitude, Speed: $speed", KL_NOTIFY);
 
