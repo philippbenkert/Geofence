@@ -67,6 +67,14 @@ private function validateAPIKey($apiKey) {
     return true;
 }
 
+private function writeToFile($data) {
+    $filePath = __DIR__ . '/geotracking.json';
+    $jsonData = json_encode($data);
+    if (file_put_contents($filePath, $jsonData) === false) {
+        return false;
+    }
+    return true;
+}
 
     
 public function ApplyChanges() {
