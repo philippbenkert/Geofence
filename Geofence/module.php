@@ -1,6 +1,6 @@
 <?php
 
-class Geofence extends IPSModule {
+class GeoTracker extends IPSModule {
 
     public function Create() {
         parent::Create();
