@@ -197,7 +197,7 @@ public function ApplyChanges() {
 
     // Update the HTMLBox with the new HTML code
     SetValue($this->GetIDForIdent('MapHTMLBox'), $htmlCode);
-    }
+    
     
 
     $geotrackingData = [
