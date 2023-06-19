@@ -18,10 +18,10 @@ class GeoTracker extends IPSModule {
         $this->RegisterVariableString('MapHTMLBox', 'Map', '~HTMLBox');
 
         // Register for updates of the source variables
-        $this->RegisterMessage($this->ReadPropertyInteger('Latitude'), VM_UPDATE);
-        $this->RegisterMessage($this->ReadPropertyInteger('Longitude'), VM_UPDATE);
-        $this->RegisterMessage($this->ReadPropertyInteger('Altitude'), VM_UPDATE);
-        $this->RegisterMessage($this->ReadPropertyInteger('Speed'), VM_UPDATE);
+        $this->RegisterMessage($this->GetIDForIdent('Latitude'), VM_UPDATE);
+        $this->RegisterMessage($this->GetIDForIdent('Longitude'), VM_UPDATE);
+        $this->RegisterMessage($this->GetIDForIdent('Altitude'), VM_UPDATE);
+        $this->RegisterMessage($this->GetIDForIdent('Speed'), VM_UPDATE);
     }
 
     public function ApplyChanges() {
