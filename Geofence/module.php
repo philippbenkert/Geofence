@@ -27,6 +27,26 @@ private function validateVariableId($id) {
     }
     return true;
 }    
+
+private function validateValues($latitude, $longitude, $altitude, $speed) {
+    if (!is_numeric($latitude) || !is_numeric($longitude) || !is_numeric($altitude) || !is_numeric($speed)) {
+        return false;
+    }
+    if ($latitude < -90 || $latitude > 90) {
+        return false;
+    }
+    if ($longitude < -180 || $longitude > 180) {
+        return false;
+    }
+    if ($altitude < -10000 || $altitude > 10000) {
+        return false;
+    }
+    if ($speed < 0) {
+        return false;
+    }
+    return true;
+}
+
     
 public function ApplyChanges() {
     parent::ApplyChanges();
