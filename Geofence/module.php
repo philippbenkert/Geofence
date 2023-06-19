@@ -98,8 +98,7 @@ class Geofence extends IPSModule {
         return !empty($googleMapsAPIKey);
     }
 
-    private function write```php
-ToFile($geotrackingData) {
+    private function writeToFile($geotrackingData) {
         return file_put_contents('/var/bin/symcon/modules/Geofence/geotracking.json', json_encode($geotrackingData), FILE_APPEND) !== false;
     }
 
@@ -185,8 +184,7 @@ ToFile($geotrackingData) {
         // Überprüfen Sie die Internetverbindung
         $connected = @fsockopen("www.google.com", 80); 
         if (!$connected){
-            $this->Log```php
-Message("Internet connection is required", KL_ERROR);
+            $this->LogMessage("Internet connection is required", KL_ERROR);
             return;
         }
         fclose($connected);
