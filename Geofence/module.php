@@ -28,6 +28,55 @@ private function validateVariableId($id) {
     return true;
 }    
 
+private function loadGpsDataFromArchive($archiveId, $latitudeId, $longitudeId, $altitudeId, $speedId) {
+    // Hier müssen Sie den Code hinzufügen, um die GPS-Daten aus dem Archiv zu laden
+    // Sie können die Funktion AC_GetLoggedValues verwenden, um die geloggten Werte einer Variablen zu erhalten
+    // Sie müssen dies für jede der GPS-Variablen tun und die Ergebnisse in einem Array zusammenfassen
+
+    $gpsData = [];
+
+    // Get today's date
+    $today = date("Y-m-d");
+
+    // Get the logged values for each variable
+    $latitudeValues = AC_GetLoggedValues($archiveId, $latitudeId, strtotime($today), time(), 0);
+    $longitudeValues = AC_GetLoggedValues($archiveId, $longitudeId, strtotime($today), time(), 0);
+    $altitudeValues = AC_GetLoggedValues($archiveId, $altitudeId, strtotime($today), time(), 0);
+    $speedValues = AC_GetLoggedValues($archiveId, $speedId, strtotime($today), time(), 0);
+
+    // Combine the values into a single array
+    for ($i = 0; $i < count($latitudeValues); $i++) {
+        $gpsData[] = [
+            'latitude' => $latitudeValues[$i]['Value'],
+            'longitude' => $longitudeValues[$i]['Value'],
+            'altitude' => $altitudeValues[$i]['Value'],
+            'speed' => $speedValues[$i]['Value']
+        ];
+    }
+
+    return $gpsData;
+}
+
+private function generateOpenStreetMapHtml($gpsData) {
+    $htmlCode = '<div id="mapid" style="height: 400px;"></div>';
+    $htmlCode .= '<script>';
+    $htmlCode .= 'var mymap = L.map("mapid").setView([51.505, -0.09], 13);';
+    $htmlCode .= 'L.tileLayer("https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png", {';
+    $htmlCode .= 'maxZoom: 19,';
+    $htmlCode .= '}).addTo(mymap);';
+
+    foreach ($gpsData as $dataPoint) {
+        $htmlCode .= 'L.marker([' . $dataPoint['latitude'] . ', ' . $dataPoint['longitude'] . ']).addTo(mymap)';
+        $htmlCode .= '.bindPopup("Speed: ' . $dataPoint['speed'] . ' km/h, Altitude: ' . $dataPoint['altitude'] . ' meters");';
+    }
+
+    $htmlCode .= '</script>';
+
+    return $htmlCode;
+}
+
+    
+    
 private function validateValues($latitude, $longitude, $altitude, $speed) {
     if (!is_numeric($latitude) || !is_numeric($longitude) || !is_numeric($altitude) || !is_numeric($speed)) {
         return false;
@@ -132,39 +181,22 @@ public function ApplyChanges() {
     }
     
     public function UpdateGeotracking() {
-    $this->LogMessage("UpdateGeotracking started", KL_NOTIFY);
-
-    $latitudeId = $this->ReadPropertyInteger('Latitude');
-    $longitudeId = $this->ReadPropertyInteger('Longitude');
-    $altitudeId = $this->ReadPropertyInteger('Altitude');
-    $speedId = $this->ReadPropertyInteger('Speed');
-
-    if ($latitudeId == 0 || $longitudeId == 0 || $altitudeId == 0 || $speedId == 0) {
-        $this->LogMessage("Variables not selected yet", KL_WARNING);
-        return;
-    }
-
-    if (!$this->validateVariableId($latitudeId) || !$this->validateVariableId($longitudeId) || !$this->validateVariableId($altitudeId) || !$this->validateVariableId($speedId)) {
-        $this->LogMessage("One or more selected variables do not exist", KL_ERROR);
-        return;
-    }
-
     // Find the archive instance
-    $archiveInstances = IPS_GetInstanceListByModuleID("AC37D48F-2B8E-4B19-B1F2-4D1C9F6CA96A");
+    $archiveInstances = IPS_GetInstanceListByModuleID("{43192F0B-135B-4CE7-A0A7-1475603F3060}");
     if (count($archiveInstances) == 0) {
         $this->LogMessage("No archive instance found", KL_ERROR);
         return;
     }
     $archiveId = $archiveInstances[0];  // Use the first archive instance
 
-    // Check and enable archiving for the variables
-    $variableIds = [$latitudeId, $longitudeId, $altitudeId, $speedId];
-    foreach ($variableIds as $variableId) {
-        $isLogging = AC_GetLoggingStatus($archiveId, $variableId);
-        if (!$isLogging) {
-            AC_SetLoggingStatus($archiveId, $variableId, true);
-            IPS_ApplyChanges($archiveId);
-        }
+    // Load the GPS data from the archive
+    $gpsData = $this->loadGpsDataFromArchive($archiveId, $latitudeId, $longitudeId, $altitudeId, $speedId);
+
+    // Generate the HTML code for the OpenStreetMap map
+    $htmlCode = $this->generateOpenStreetMapHtml($gpsData);
+
+    // Update the HTMLBox with the new HTML code
+    SetValue($this->GetIDForIdent('MapHTMLBox'), $htmlCode);
     }
     $googleMapsAPIKey = $this->ReadPropertyString('GoogleMapsAPIKey');
     if (!$this->validateAPIKey($googleMapsAPIKey)) {
