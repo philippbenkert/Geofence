@@ -60,10 +60,16 @@ public function ApplyChanges() {
     }
     
     public function UpdateGeotracking() {
-        $latitude = GetValue($this->ReadPropertyInteger('Latitude'));
-        $longitude = GetValue($this->ReadPropertyInteger('Longitude'));
-        $altitude = GetValue($this->ReadPropertyInteger('Altitude'));
-        $speed = GetValue($this->ReadPropertyInteger('Speed'));
+    $latitudeId = $this->ReadPropertyInteger('Latitude');
+    $longitudeId = $this->ReadPropertyInteger('Longitude');
+    $altitudeId = $this->ReadPropertyInteger('Altitude');
+    $speedId = $this->ReadPropertyInteger('Speed');
+
+    if ($latitudeId > 0 && $longitudeId > 0 && $altitudeId > 0 && $speedId > 0) {
+        $latitude = GetValue($latitudeId);
+        $longitude = GetValue($longitudeId);
+        $altitude = GetValue($altitudeId);
+        $speed = GetValue($speedId);
 
     $this->LogMessage("Latitude: $latitude, Longitude: $longitude, Altitude: $altitude, Speed: $speed", KL_NOTIFY);
 
