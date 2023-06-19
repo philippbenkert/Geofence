@@ -211,19 +211,32 @@ public function ApplyChanges() {
     $altitudeId = $this->ReadPropertyInteger('Altitude');
     $speedId = $this->ReadPropertyInteger('Speed');
 
-    // Check if the variables exist and enable logging for them
-    if (IPS_VariableExists($latitudeId)) {
-        AC_SetLoggingStatus($archiveHandlerID, $latitudeId, true);
+   // Get the Archive Handler instance ID
+    $instanceID = IPS_GetInstance($this->InstanceID)['ConnectionID'];
+
+    // Check if the instance ID is valid
+    if ($instanceID !== false) {
+    // Get the archive handler ID
+    $archiveHandlerID = IPS_GetInstance($instanceID)['ModuleInfo']['ModuleID'];
+    } else {
+    // Handle the case when the archive handler instance is not found
+    // You can set a default value or handle the error accordingly
+    $archiveHandlerID = 0;
     }
-    if (IPS_VariableExists($longitudeId)) {
-        AC_SetLoggingStatus($archiveHandlerID, $longitudeId, true);
-    }
-    if (IPS_VariableExists($altitudeId)) {
-        AC_SetLoggingStatus($archiveHandlerID, $altitudeId, true);
-    }
-    if (IPS_VariableExists($speedId)) {
-        AC_SetLoggingStatus($archiveHandlerID, $speedId, true);
-    }
+
+// Check if the variables exist and enable logging for them
+if (IPS_VariableExists($latitudeId)) {
+    AC_SetLoggingStatus($archiveHandlerID, $latitudeId, true);
+}
+if (IPS_VariableExists($longitudeId)) {
+    AC_SetLoggingStatus($archiveHandlerID, $longitudeId, true);
+}
+if (IPS_VariableExists($altitudeId)) {
+    AC_SetLoggingStatus($archiveHandlerID, $altitudeId, true);
+}
+if (IPS_VariableExists($speedId)) {
+    AC_SetLoggingStatus($archiveHandlerID, $speedId, true);
+}
 
 
     $this->SendDebug('UpdateGeotracking', 'Starting geotracking update', 0);
