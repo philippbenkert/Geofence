@@ -41,10 +41,15 @@ class GeoTracker extends IPSModule {
     }
 
     public function UpdateGeotracking() {
-        $latitude = GetValueString($this->ReadPropertyString('Latitude'));
-        $longitude = GetValueString($this->ReadPropertyString('Longitude'));
-        $altitude = GetValueString($this->ReadPropertyString('Altitude'));
-        $speed = GetValueString($this->ReadPropertyString('Speed'));
+    $this->LogMessage("UpdateGeotracking() called", KL_NOTIFY);
+
+    $latitude = GetValueString($this->ReadPropertyString('Latitude'));
+    $longitude = GetValueString($this->ReadPropertyString('Longitude'));
+    $altitude = GetValueString($this->ReadPropertyString('Altitude'));
+    $speed = GetValueString($this->ReadPropertyString('Speed'));
+
+    $this->LogMessage("Latitude: $latitude, Longitude: $longitude, Altitude: $altitude, Speed: $speed", KL_NOTIFY);
+
 
         if (!$this->validateValues($latitude, $longitude, $altitude, $speed)) {
             $this->LogMessage("Invalid values for latitude, longitude, altitude, or speed", KL_ERROR);
