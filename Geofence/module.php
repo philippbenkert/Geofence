@@ -16,26 +16,27 @@ class Geofence extends IPSModule {
         $this->RegisterPropertyString('GoogleMapsAPIKey', '');
 
         $this->RegisterVariableString('MapHTMLBox', 'Map', '~HTMLBox');
+
+        // Register for updates of the source variables
+        $this->RegisterMessage($this->ReadPropertyInteger('Latitude'), VM_UPDATE);
+        $this->RegisterMessage($this->ReadPropertyInteger('Longitude'), VM_UPDATE);
+        $this->RegisterMessage($this->ReadPropertyInteger('Altitude'), VM_UPDATE);
+        $this->RegisterMessage($this->ReadPropertyInteger('Speed'), VM_UPDATE);
     }
 
     public function ApplyChanges() {
         parent::ApplyChanges();
 
-        if (!$this->validateVariableId($this->ReadPropertyInteger('Latitude'))) {
-            $this->LogMessage("Latitude variable does not exist", KL_ERROR);
-            return;
-        }
-        if (!$this->validateVariableId($this->ReadPropertyInteger('Longitude'))) {
-            $this->LogMessage("Longitude variable does not exist", KL_ERROR);
-            return;
-        }
-        if (!$this->validateVariableId($this->ReadPropertyInteger('Altitude'))) {
-            $this->LogMessage("Altitude variable does not exist", KL_ERROR);
-            return;
-        }
-        if (!$this->validateVariableId($this->ReadPropertyInteger('Speed'))) {
-            $this->LogMessage("Speed variable does not exist", KL_ERROR);
-            return;
+        // Update the map when the module is updated
+        $this->UpdateGeotracking();
+    }
+
+    public function MessageSink($TimeStamp, $SenderId, $Message, $Data) {
+        parent::MessageSink($TimeStamp, $SenderId, $Message, $Data);
+
+        // Update the map when one of the source variables is updated
+        if ($Message == VM_UPDATE) {
+            $this->UpdateGeotracking();
         }
     }
 
@@ -62,6 +63,9 @@ class Geofence extends IPSModule {
             'altitude' => $altitude,
             'speed' => $speed
         ];
+
+        // Save the geotracking data to the buffer
+        $this->SetBuffer('GeotrackingData', json_encode($geotrackingData));
 
         if (!$this->writeToFile($geotrackingData)) {
             $this->LogMessage("Failed to write to file", KL_ERROR);
