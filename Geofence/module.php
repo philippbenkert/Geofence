@@ -65,6 +65,11 @@ public function ApplyChanges() {
     $altitudeId = $this->ReadPropertyInteger('Altitude');
     $speedId = $this->ReadPropertyInteger('Speed');
 
+    $latitude = 0;
+    $longitude = 0;
+    $altitude = 0;
+    $speed = 0;
+
     if ($latitudeId > 0 && $longitudeId > 0 && $altitudeId > 0 && $speedId > 0) {
         $latitude = GetValue($latitudeId);
         $longitude = GetValue($longitudeId);
