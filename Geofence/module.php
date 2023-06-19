@@ -47,6 +47,27 @@ private function validateValues($latitude, $longitude, $altitude, $speed) {
     return true;
 }
 
+
+private function validateAPIKey($apiKey) {
+    if (empty($apiKey)) {
+        return false;
+    }
+
+    // Senden Sie eine einfache Anfrage an die Google Maps API
+    $url = "https://maps.googleapis.com/maps/api/geocode/json?latlng=40.714224,-73.961452&key=$apiKey";
+    $response = file_get_contents($url);
+    $data = json_decode($response, true);
+
+    // Überprüfen Sie, ob die Antwort einen Fehler enthält, der auf einen ungültigen API-Schlüssel hinweist
+    if (isset($data['error_message'])) {
+        $this->LogMessage("Invalid Google Maps API key: " . $data['error_message'], KL_ERROR);
+        return false;
+    }
+
+    return true;
+}
+
+
     
 public function ApplyChanges() {
     parent::ApplyChanges();
