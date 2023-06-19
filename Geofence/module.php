@@ -1,4 +1,5 @@
 <?php
+
 class GeoTracker extends IPSModule {
 
     public function __construct($InstanceID) {
@@ -6,6 +7,7 @@ class GeoTracker extends IPSModule {
 
         // Aktivieren Sie die Fehlerberichterstattung
         error_reporting(E_ALL);
+        $this->SendDebug('Constructor', 'Module constructed', 0);
     }
 
     public function Create() {
@@ -190,6 +192,7 @@ public function ApplyChanges() {
     
     public function UpdateGeotracking() {
         $this->SendDebug('UpdateGeotracking', 'Starting geotracking update', 0);
+        $this->SendDebug('UpdateGeotracking', 'Latitude: ' . $latitude . ', Longitude: ' . $longitude . ', Altitude: ' . $altitude . ', Speed: ' . $speed, 0);
      
     // Find the archive instance
     $archiveInstances = IPS_GetInstanceListByModuleID("{43192F0B-135B-4CE7-A0A7-1475603F3060}");
