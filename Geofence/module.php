@@ -60,6 +60,7 @@ public function ApplyChanges() {
     }
     
     public function UpdateGeotracking() {
+    $this->LogMessage("UpdateGeotracking started", KL_NOTIFY);
     $latitudeId = $this->ReadPropertyInteger('Latitude');
     $longitudeId = $this->ReadPropertyInteger('Longitude');
     $altitudeId = $this->ReadPropertyInteger('Altitude');
