@@ -149,18 +149,23 @@ public function ApplyChanges() {
         return;
     }
 
-    $latitude = GetValue($latitudeId);
-    $longitude = GetValue($longitudeId);
-    $altitude = GetValue($altitudeId);
-    $speed = GetValue($speedId);
-
-    $this->LogMessage("Latitude: $latitude, Longitude: $longitude, Altitude: $altitude, Speed: $speed", KL_NOTIFY);
-
-    if (!$this->validateValues($latitude, $longitude, $altitude, $speed)) {
-        $this->LogMessage("Invalid values for latitude, longitude, altitude, or speed", KL_ERROR);
+    // Find the archive instance
+    $archiveInstances = IPS_GetInstanceListByModuleID("AC37D48F-2B8E-4B19-B1F2-4D1C9F6CA96A");
+    if (count($archiveInstances) == 0) {
+        $this->LogMessage("No archive instance found", KL_ERROR);
         return;
     }
+    $archiveId = $archiveInstances[0];  // Use the first archive instance
 
+    // Check and enable archiving for the variables
+    $variableIds = [$latitudeId, $longitudeId, $altitudeId, $speedId];
+    foreach ($variableIds as $variableId) {
+        $isLogging = AC_GetLoggingStatus($archiveId, $variableId);
+        if (!$isLogging) {
+            AC_SetLoggingStatus($archiveId, $variableId, true);
+            IPS_ApplyChanges($archiveId);
+        }
+    }
     $googleMapsAPIKey = $this->ReadPropertyString('GoogleMapsAPIKey');
     if (!$this->validateAPIKey($googleMapsAPIKey)) {
         $this->LogMessage("Invalid Google Maps API key", KL_ERROR);
