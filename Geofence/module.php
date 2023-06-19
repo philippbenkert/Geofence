@@ -75,7 +75,59 @@ public function ApplyChanges() {
         $longitude = GetValue($longitudeId);
         $altitude = GetValue($altitudeId);
         $speed = GetValue($speedId);
+    } else {
+        $this->LogMessage("Variables not selected yet", KL_WARNING);
+        return;
     }
+
+    $this->LogMessage("Latitude: $latitude, Longitude: $longitude, Altitude: $altitude, Speed: $speed", KL_NOTIFY);
+
+    if (!$this->validateValues($latitude, $longitude, $altitude, $speed)) {
+        $this->LogMessage("Invalid values for latitude, longitude, altitude, or speed", KL_ERROR);
+        return;
+    }
+
+    $googleMapsAPIKey = $this->ReadPropertyString('GoogleMapsAPIKey');
+    if (!$this->validateAPIKey($googleMapsAPIKey)) {
+        $this->LogMessage("Invalid Google Maps API key", KL_ERROR);
+        return;
+    }
+
+    $this->LogMessage("Google Maps API key is valid", KL_NOTIFY);
+
+    $geotrackingData = [
+        'latitude' => $latitude,
+        'longitude' => $longitude,
+        'altitude' => $altitude,
+        'speed' => $speed
+    ];
+
+    $this->SetBuffer('GeotrackingData', json_encode($geotrackingData));
+
+    if (!$this->writeToFile($geotrackingData)) {
+        $this->LogMessage("Failed to write to file", KL_ERROR);
+        return;
+    }
+
+    $this->LogMessage("Successfully wrote to file", KL_NOTIFY);
+
+    $data = $this->readFromFile();
+    if ($data === null) {
+        $this->LogMessage("Failed to read from file", KL_ERROR);
+        return;
+    }
+
+    $this->LogMessage("Successfully read from file", KL_NOTIFY);
+
+    $htmlCode = $this->generateHTML($data, $googleMapsAPIKey, $latitude, $longitude);
+    if (!$this->updateHTMLBox($htmlCode)) {
+        $this->LogMessage("Failed to update MapHTMLBox", KL_ERROR);
+        return;
+    }
+
+    $this->LogMessage("Successfully updated MapHTMLBox", KL_NOTIFY);
+}
+
 
     $this->LogMessage("Latitude: $latitude, Longitude: $longitude, Altitude: $altitude, Speed: $speed", KL_NOTIFY);
 
