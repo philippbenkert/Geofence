@@ -1,5 +1,5 @@
 <?php
-
+error_reporting(E_ALL);
 class GeoTracker extends IPSModule {
 
     public function Create() {
