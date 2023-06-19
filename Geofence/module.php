@@ -3,33 +3,34 @@
 class GeoTracker extends IPSModule {
 
     public function Create() {
-        parent::Create();
+    parent::Create();
 
-        // Überprüfen Sie die Installationsbedingungen
-        $this->checkInstallationConditions();
+    // Überprüfen Sie die Installationsbedingungen
+    $this->checkInstallationConditions();
 
-        $this->RegisterPropertyInteger('Latitude', 0);
-        $this->RegisterPropertyInteger('Longitude', 0);
-        $this->RegisterPropertyInteger('Altitude', 0);
-        $this->RegisterPropertyInteger('Speed', 0);
+    $this->RegisterPropertyInteger('Latitude', 0);
+    $this->RegisterPropertyInteger('Longitude', 0);
+    $this->RegisterPropertyInteger('Altitude', 0);
+    $this->RegisterPropertyInteger('Speed', 0);
 
-        $this->RegisterPropertyString('GoogleMapsAPIKey', '');
+    $this->RegisterPropertyString('GoogleMapsAPIKey', '');
 
-        $this->RegisterVariableString('MapHTMLBox', 'Map', '~HTMLBox');
+    $this->RegisterVariableString('MapHTMLBox', 'Map', '~HTMLBox');
+}
 
-        // Register for updates of the source variables
-        $this->RegisterMessage($this->ReadPropertyInteger('Latitude'), VM_UPDATE);
-        $this->RegisterMessage($this->ReadPropertyInteger('Longitude'), VM_UPDATE);
-        $this->RegisterMessage($this->ReadPropertyInteger('Altitude'), VM_UPDATE);
-        $this->RegisterMessage($this->ReadPropertyInteger('Speed'), VM_UPDATE);
-    }
+public function ApplyChanges() {
+    parent::ApplyChanges();
 
-    public function ApplyChanges() {
-        parent::ApplyChanges();
+    // Register for updates of the source variables
+    $this->RegisterMessage($this->ReadPropertyInteger('Latitude'), VM_UPDATE);
+    $this->RegisterMessage($this->ReadPropertyInteger('Longitude'), VM_UPDATE);
+    $this->RegisterMessage($this->ReadPropertyInteger('Altitude'), VM_UPDATE);
+    $this->RegisterMessage($this->ReadPropertyInteger('Speed'), VM_UPDATE);
 
-        // Update the map when the module is updated
-        $this->UpdateGeotracking();
-    }
+    // Update the map when the module is updated
+    $this->UpdateGeotracking();
+}
+
 
     public function MessageSink($TimeStamp, $SenderId, $Message, $Data) {
         parent::MessageSink($TimeStamp, $SenderId, $Message, $Data);
