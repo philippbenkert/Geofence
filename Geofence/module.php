@@ -211,11 +211,19 @@ public function ApplyChanges() {
     $altitudeId = $this->ReadPropertyInteger('Altitude');
     $speedId = $this->ReadPropertyInteger('Speed');
 
-    // Check if the variables exist and get their values
-    $latitude = IPS_VariableExists($latitudeId) ? GetValue($latitudeId) : null;
-    $longitude = IPS_VariableExists($longitudeId) ? GetValue($longitudeId) : null;
-    $altitude = IPS_VariableExists($altitudeId) ? GetValue($altitudeId) : null;
-    $speed = IPS_VariableExists($speedId) ? GetValue($speedId) : null;
+    // Check if the variables exist and enable logging for them
+    if (IPS_VariableExists($latitudeId)) {
+        AC_SetLoggingStatus($archiveHandlerID, $latitudeId, true);
+    }
+    if (IPS_VariableExists($longitudeId)) {
+        AC_SetLoggingStatus($archiveHandlerID, $longitudeId, true);
+    }
+    if (IPS_VariableExists($altitudeId)) {
+        AC_SetLoggingStatus($archiveHandlerID, $altitudeId, true);
+    }
+    if (IPS_VariableExists($speedId)) {
+        AC_SetLoggingStatus($archiveHandlerID, $speedId, true);
+    }
 
 
     $this->SendDebug('UpdateGeotracking', 'Starting geotracking update', 0);
