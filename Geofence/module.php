@@ -198,13 +198,7 @@ public function ApplyChanges() {
     // Update the HTMLBox with the new HTML code
     SetValue($this->GetIDForIdent('MapHTMLBox'), $htmlCode);
     }
-    $googleMapsAPIKey = $this->ReadPropertyString('GoogleMapsAPIKey');
-    if (!$this->validateAPIKey($googleMapsAPIKey)) {
-        $this->LogMessage("Invalid Google Maps API key", KL_ERROR);
-        return;
-    }
-
-    $this->LogMessage("Google Maps API key is valid", KL_NOTIFY);
+    
 
     $geotrackingData = [
         'latitude' => $latitude,
