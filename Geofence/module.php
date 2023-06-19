@@ -2,16 +2,16 @@
 
 class GeoTracker extends IPSModule {
 
-      public function Create() {
+   public function Create() {
         parent::Create();
 
         // Überprüfen Sie die Installationsbedingungen
         $this->checkInstallationConditions();
 
-        $this->RegisterPropertyMixed('Latitude', $this->RegisterVariableMixed('Latitude', 'Latitude', '', 0));
-        $this->RegisterPropertyMixed('Longitude', $this->RegisterVariableMixed('Longitude', 'Longitude', '', 0));
-        $this->RegisterPropertyMixed('Altitude', $this->RegisterVariableMixed('Altitude', 'Altitude', '', 0));
-        $this->RegisterPropertyMixed('Speed', $this->RegisterVariableMixed('Speed', 'Speed', '', 0));
+        $this->RegisterPropertyString('Latitude', '0');
+        $this->RegisterPropertyString('Longitude', '0');
+        $this->RegisterPropertyString('Altitude', '0');
+        $this->RegisterPropertyString('Speed', '0');
 
         $this->RegisterPropertyString('GoogleMapsAPIKey', '');
 
