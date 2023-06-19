@@ -24,8 +24,6 @@ class GeoTracker extends IPSModule {
         $this->RegisterMessage($this->GetIDForIdent('Speed'), VM_UPDATE);
     }
 
-
-
     public function ApplyChanges() {
         parent::ApplyChanges();
 
@@ -101,11 +99,11 @@ class GeoTracker extends IPSModule {
     }
 
     private function writeToFile($geotrackingData) {
-        return file_put_contents('/var/bin/symcon/modules/Geofence/geotracking.json', json_encode($geotrackingData), FILE_APPEND) !== false;
+        return file_put_contents('/tmp/geotracking.json', json_encode($geotrackingData), FILE_APPEND) !== false;
     }
 
     private function readFromFile() {
-        $jsonString = file_get_contents('/var/bin/symcon/modules/Geofence/geotracking.json');
+        $jsonString = file_get_contents('/tmp/geotracking.json');
         $data = json_decode($jsonString, true);
 
         return $data;
