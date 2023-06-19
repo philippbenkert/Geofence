@@ -27,6 +27,18 @@ class GeoTracker extends IPSModule {
         $this->SendDebug('Create', 'Module created and properties registered', 0);
     }
 
+private function getOpenStreetMapAddress($latitude, $longitude) {
+    $url = "https://nominatim.openstreetmap.org/reverse?format=json&lat=$latitude&lon=$longitude&zoom=18&addressdetails=1";
+    $json = file_get_contents($url);
+    $data = json_decode($json, true);
+    if (isset($data['display_name'])) {
+        return $data['display_name'];
+    } else {
+        return 'Address not found';
+    }
+}
+
+    
 private function validateVariableId($id) {
     if ($id == 0) {
         return false;
