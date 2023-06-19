@@ -8,10 +8,10 @@ class GeoTracker extends IPSModule {
         // Überprüfen Sie die Installationsbedingungen
         $this->checkInstallationConditions();
 
-        $this->RegisterPropertyString('Latitude', $this->RegisterVariableString('Latitude', 'Latitude', '', '0'));
-        $this->RegisterPropertyString('Longitude', $this->RegisterVariableString('Longitude', 'Longitude', '', '0'));
-        $this->RegisterPropertyString('Altitude', $this->RegisterVariableString('Altitude', 'Altitude', '', '0'));
-        $this->RegisterPropertyString('Speed', $this->RegisterVariableString('Speed', 'Speed', '', '0'));
+        $this->RegisterPropertyInteger('Latitude', $this->RegisterVariableInteger('Latitude', 'Latitude', '', 0));
+        $this->RegisterPropertyInteger('Longitude', $this->RegisterVariableInteger('Longitude', 'Longitude', '', 0));
+        $this->RegisterPropertyInteger('Altitude', $this->RegisterVariableInteger('Altitude', 'Altitude', '', 0));
+        $this->RegisterPropertyInteger('Speed', $this->RegisterVariableInteger('Speed', 'Speed', '', 0));
 
         $this->RegisterPropertyString('GoogleMapsAPIKey', '');
 
@@ -41,10 +41,10 @@ class GeoTracker extends IPSModule {
     }
 
     public function UpdateGeotracking() {
-        $latitude = GetValue($this->ReadPropertyString('Latitude'));
-        $longitude = GetValue($this->ReadPropertyString('Longitude'));
-        $altitude = GetValue($this->ReadPropertyString('Altitude'));
-        $speed = GetValue($this->ReadPropertyString('Speed'));
+        $latitude = GetValue($this->ReadPropertyInteger('Latitude'));
+        $longitude = GetValue($this->ReadPropertyInteger('Longitude'));
+        $altitude = GetValue($this->ReadPropertyInteger('Altitude'));
+        $speed = GetValue($this->ReadPropertyInteger('Speed'));
 
         if (!$this->validateValues($latitude, $longitude, $altitude, $speed)) {
             $this->LogMessage("Invalid values for latitude, longitude, altitude, or speed", KL_ERROR);
