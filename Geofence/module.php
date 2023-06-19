@@ -191,9 +191,15 @@ public function ApplyChanges() {
     }
     
     public function UpdateGeotracking() {
-        $this->SendDebug('UpdateGeotracking', 'Starting geotracking update', 0);
-        $this->SendDebug('UpdateGeotracking', 'Latitude: ' . $latitude . ', Longitude: ' . $longitude . ', Altitude: ' . $altitude . ', Speed: ' . $speed, 0);
-     
+    $latitude = GetValue($this->ReadPropertyInteger('Latitude'));
+    $longitude = GetValue($this->ReadPropertyInteger('Longitude'));
+    $altitude = GetValue($this->ReadPropertyInteger('Altitude'));
+    $speed = GetValue($this->ReadPropertyInteger('Speed'));
+
+    $this->SendDebug('UpdateGeotracking', 'Starting geotracking update', 0);
+    $this->SendDebug('UpdateGeotracking', 'Latitude: ' . $latitude . ', Longitude: ' . $longitude . ', Altitude: ' . $altitude . ', Speed: ' . $speed, 0);
+
+        
     // Find the archive instance
     $archiveInstances = IPS_GetInstanceListByModuleID("{43192F0B-135B-4CE7-A0A7-1475603F3060}");
     if (count($archiveInstances) == 0) {
