@@ -85,8 +85,9 @@ private function readFromFile() {
     if ($jsonData === false) {
         return null;
     }
-    return json_decode($jsonData, true);
+    return json_decode($jsonData, true); // Setzen Sie den zweiten Parameter auf true, um ein Array zurückzugeben
 }
+
 
     
 public function ApplyChanges() {
