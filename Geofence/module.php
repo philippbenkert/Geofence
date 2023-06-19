@@ -24,6 +24,8 @@ class GeoTracker extends IPSModule {
         $this->RegisterPropertyString('GoogleMapsAPIKey', '');
 
         $this->RegisterVariableString('MapHTMLBox', 'Map', '~HTMLBox');
+        $this->RegisterVariableString('Address', 'Address', '');  // Neue Variable für die Adresse
+
         $this->SendDebug('Create', 'Module created and properties registered', 0);
     }
 
@@ -210,6 +212,10 @@ public function ApplyChanges() {
 
     $this->SendDebug('UpdateGeotracking', 'Starting geotracking update', 0);
     $this->SendDebug('UpdateGeotracking', 'Latitude: ' . $latitude . ', Longitude: ' . $longitude . ', Altitude: ' . $altitude . ', Speed: ' . $speed, 0);
+
+    // Get the address for the current GPS coordinates
+    $address = $this->getOpenStreetMapAddress($latitude, $longitude);
+    SetValue($this->GetIDForIdent('Address'), $address);  // Store the address in the new variable
 
         
     // Find the archive instance
