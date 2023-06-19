@@ -205,10 +205,17 @@ public function ApplyChanges() {
     }
     
     public function UpdateGeotracking() {
-    $latitude = GetValue($this->ReadPropertyInteger('Latitude'));
-    $longitude = GetValue($this->ReadPropertyInteger('Longitude'));
-    $altitude = GetValue($this->ReadPropertyInteger('Altitude'));
-    $speed = GetValue($this->ReadPropertyInteger('Speed'));
+    // Get the variable IDs
+    $latitudeId = $this->ReadPropertyInteger('Latitude');
+    $longitudeId = $this->ReadPropertyInteger('Longitude');
+    $altitudeId = $this->ReadPropertyInteger('Altitude');
+    $speedId = $this->ReadPropertyInteger('Speed');
+
+    // Get the variable values
+    $latitude = GetValue($latitudeId);
+    $longitude = GetValue($longitudeId);
+    $altitude = GetValue($altitudeId);
+    $speed = GetValue($speedId);
 
     $this->SendDebug('UpdateGeotracking', 'Starting geotracking update', 0);
     $this->SendDebug('UpdateGeotracking', 'Latitude: ' . $latitude . ', Longitude: ' . $longitude . ', Altitude: ' . $altitude . ', Speed: ' . $speed, 0);
