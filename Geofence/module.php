@@ -22,14 +22,28 @@ public function ApplyChanges() {
     parent::ApplyChanges();
 
     // Register for updates of the source variables
-    $this->RegisterMessage($this->ReadPropertyInteger('Latitude'), VM_UPDATE);
-    $this->RegisterMessage($this->ReadPropertyInteger('Longitude'), VM_UPDATE);
-    $this->RegisterMessage($this->ReadPropertyInteger('Altitude'), VM_UPDATE);
-    $this->RegisterMessage($this->ReadPropertyInteger('Speed'), VM_UPDATE);
+    $latitudeId = $this->ReadPropertyInteger('Latitude');
+    $longitudeId = $this->ReadPropertyInteger('Longitude');
+    $altitudeId = $this->ReadPropertyInteger('Altitude');
+    $speedId = $this->ReadPropertyInteger('Speed');
+
+    if ($latitudeId > 0) {
+        $this->RegisterMessage($latitudeId, VM_UPDATE);
+    }
+    if ($longitudeId > 0) {
+        $this->RegisterMessage($longitudeId, VM_UPDATE);
+    }
+    if ($altitudeId > 0) {
+        $this->RegisterMessage($altitudeId, VM_UPDATE);
+    }
+    if ($speedId > 0) {
+        $this->RegisterMessage($speedId, VM_UPDATE);
+    }
 
     // Update the map when the module is updated
     $this->UpdateGeotracking();
 }
+
 
 
     public function MessageSink($TimeStamp, $SenderId, $Message, $Data) {
