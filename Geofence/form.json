@@ -1,22 +1,22 @@
 {
     "elements": [
         {
-            "type": "NumberSpinner",
+            "type": "SelectVariable",
             "name": "Latitude",
             "caption": "Latitude"
         },
         {
-            "type": "NumberSpinner",
+            "type": "SelectVariable",
             "name": "Longitude",
             "caption": "Longitude"
         },
         {
-            "type": "NumberSpinner",
+            "type": "SelectVariable",
             "name": "Altitude",
             "caption": "Altitude"
         },
         {
-            "type": "NumberSpinner",
+            "type": "SelectVariable",
             "name": "Speed",
             "caption": "Speed"
         },
@@ -30,7 +30,7 @@
         {
             "type": "Button",
             "label": "Update Geotracking",
-            "onClick": "Geofence_UpdateGeotracking($id);"
+            "onClick": "GeoTracker_UpdateGeotracking($id);"
         }
     ],
     "status": [
