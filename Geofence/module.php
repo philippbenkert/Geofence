@@ -224,13 +224,7 @@ public function ApplyChanges() {
 
     $this->LogMessage("Successfully read from file", KL_NOTIFY);
 
-    $htmlCode = $this->generateHTML($data, $googleMapsAPIKey, $latitude, $longitude);
-    if (!$this->updateHTMLBox($htmlCode)) {
-        $this->LogMessage("Failed to update MapHTMLBox", KL_ERROR);
-        return;
-    }
-
-    $this->LogMessage("Successfully updated MapHTMLBox", KL_NOTIFY);
+    
 }
 
 
