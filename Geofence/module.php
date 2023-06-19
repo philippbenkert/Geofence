@@ -40,6 +40,10 @@ class GeoTracker extends IPSModule {
         }
     }
 
+    public function GeoTracker_UpdateGeotracking() {
+        $this->UpdateGeotracking();
+    }
+    
     public function UpdateGeotracking() {
         $latitude = GetValue($this->ReadPropertyInteger('Latitude'));
         $longitude = GetValue($this->ReadPropertyInteger('Longitude'));
