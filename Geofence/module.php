@@ -8,20 +8,20 @@ class GeoTracker extends IPSModule {
         // Überprüfen Sie die Installationsbedingungen
         $this->checkInstallationConditions();
 
-        $this->RegisterPropertyString('Latitude', $this->RegisterVariableString('Latitude', 'Latitude', '', '0'));
-        $this->RegisterPropertyString('Longitude', $this->RegisterVariableString('Longitude', 'Longitude', '', '0'));
-        $this->RegisterPropertyString('Altitude', $this->RegisterVariableString('Altitude', 'Altitude', '', '0'));
-        $this->RegisterPropertyString('Speed', $this->RegisterVariableString('Speed', 'Speed', '', '0'));
+        $this->RegisterPropertyInteger('Latitude', 0);
+        $this->RegisterPropertyInteger('Longitude', 0);
+        $this->RegisterPropertyInteger('Altitude', 0);
+        $this->RegisterPropertyInteger('Speed', 0);
 
         $this->RegisterPropertyString('GoogleMapsAPIKey', '');
 
         $this->RegisterVariableString('MapHTMLBox', 'Map', '~HTMLBox');
 
         // Register for updates of the source variables
-        $this->RegisterMessage($this->GetIDForIdent('Latitude'), VM_UPDATE);
-        $this->RegisterMessage($this->GetIDForIdent('Longitude'), VM_UPDATE);
-        $this->RegisterMessage($this->GetIDForIdent('Altitude'), VM_UPDATE);
-        $this->RegisterMessage($this->GetIDForIdent('Speed'), VM_UPDATE);
+        $this->RegisterMessage($this->ReadPropertyInteger('Latitude'), VM_UPDATE);
+        $this->RegisterMessage($this->ReadPropertyInteger('Longitude'), VM_UPDATE);
+        $this->RegisterMessage($this->ReadPropertyInteger('Altitude'), VM_UPDATE);
+        $this->RegisterMessage($this->ReadPropertyInteger('Speed'), VM_UPDATE);
     }
 
     public function ApplyChanges() {
@@ -41,12 +41,10 @@ class GeoTracker extends IPSModule {
     }
 
     public function UpdateGeotracking() {
-    $this->LogMessage("UpdateGeotracking() called", KL_NOTIFY);
-
-    $latitude = GetValueString($this->ReadPropertyString('Latitude'));
-    $longitude = GetValueString($this->ReadPropertyString('Longitude'));
-    $altitude = GetValueString($this->ReadPropertyString('Altitude'));
-    $speed = GetValueString($this->ReadPropertyString('Speed'));
+        $latitude = GetValue($this->ReadPropertyInteger('Latitude'));
+        $longitude = GetValue($this->ReadPropertyInteger('Longitude'));
+        $altitude = GetValue($this->ReadPropertyInteger('Altitude'));
+        $speed = GetValue($this->ReadPropertyInteger('Speed'));
 
     $this->LogMessage("Latitude: $latitude, Longitude: $longitude, Altitude: $altitude, Speed: $speed", KL_NOTIFY);
 
